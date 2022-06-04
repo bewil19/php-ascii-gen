@@ -11,7 +11,7 @@
 
 namespace AsciiGen;
 
-use Exception;
+use AsciiGen\Exceptions\FontMissing;
 
 class Ascii
 {
@@ -30,7 +30,7 @@ class Ascii
 
         $fontPath = __DIR__.DIRECTORY_SEPARATOR.'fonts'.DIRECTORY_SEPARATOR.$font.'.php';
         if (!file_exists($fontPath)) {
-            throw new Exception('Font file '.$font.' is missing!', 1);
+            throw new FontMissing('Font file '.$font.' is missing!', 1);
         }
 
         include_once $fontPath;
@@ -42,7 +42,7 @@ class Ascii
 
         for ($c = 0; $c < sizeof($symbol[0]); ++$c) {
             for ($k = 0; $k < strlen($text); ++$k) {
-                if (isset($break) && true == $break) {
+                if (isset($break) && $break) {
                     $output .= str_replace("\r", '', $symbol[$k][$c]);
                 } else {
                     $output .= '&nbsp;'.str_replace("\r", '', $symbol[$k][$c]);
